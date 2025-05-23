@@ -37,8 +37,31 @@ async def get_marks(name: List[str] = Query(None)):
         mark = next((student["marks"] for student in students_data
                      if student["name"].lower() == student_name.lower()), None)
         marks.append(mark)
+
+    # # Build a dictionary for fast lookup
+    # name_to_marks = {entry["name"]: entry["marks"] for entry in students_data}
+
+    # # Preserve the order of names in query
+    # marks = [name_to_marks.get(name, None) for name in name]
    
     return {"marks": marks}
+
+    # marks = []
+    # # Build a dictionary for fast lookup
+    # name_to_marks = {entry["name"]: entry["marks"] for entry in marks_data}
+
+    # # Preserve the order of names in query
+    # marks = [name_to_marks.get(name, None) for name in names]```
+
+
+    # marks = []
+    # for entry in marks_data:
+    #     if entry.get("name") in names:
+    #         marks.append(entry.get("marks"))
+
+
+
+
 
 @app.get("/")
 async def root():
