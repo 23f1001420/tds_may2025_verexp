@@ -19,7 +19,7 @@ app.add_middleware(
 # Get the directory of the current file
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # Load student marks data from the same directory as this file
-with open(os.path.join(current_dir, 'q-vercel-python.json')) as f:
+with open(os.path.join(current_dir, 'vercel-data.json')) as f:
     students_data = json.load(f)
 
 @app.get("/api")
@@ -30,45 +30,22 @@ async def get_marks(name: List[str] = Query(None)):
     """
     if not name:
         return {"error": "Please provide at least one name"}
-   
+    
     marks = []
     for student_name in name:
         # Look for the student in the data
-        mark = next((student["marks"] for student in students_data
+        mark = next((student["marks"] for student in students_data 
                      if student["name"].lower() == student_name.lower()), None)
         marks.append(mark)
-
-    # # Build a dictionary for fast lookup
-    # name_to_marks = {entry["name"]: entry["marks"] for entry in students_data}
-
-    # # Preserve the order of names in query
-    # marks = [name_to_marks.get(name, None) for name in name]
-   
+    
     return {"marks": marks}
-
-    # marks = []
-    # # Build a dictionary for fast lookup
-    # name_to_marks = {entry["name"]: entry["marks"] for entry in marks_data}
-
-    # # Preserve the order of names in query
-    # marks = [name_to_marks.get(name, None) for name in names]```
-
-
-    # marks = []
-    # for entry in marks_data:
-    #     if entry.get("name") in names:
-    #         marks.append(entry.get("marks"))
-
-
-
-
 
 @app.get("/")
 async def root():
     return {"message": "Student Marks API. Use /api?name=X&name=Y to get marks."}
 
 # This allows running the app with Uvicorn directly
+# Example: uvicorn api.index:app --reload
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("index:app", host="0.0.0.0", port=8000, reload=True)
-
+    uvicorn.run("index:app", host="0.0.0.0", port=8000, reload=True) 
