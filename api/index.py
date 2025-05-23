@@ -46,6 +46,6 @@ async def root():
 
 # This allows running the app with Uvicorn directly
 # Example: uvicorn api.index:app --reload
-if __name__ == "__main__":
+if _name_ == "_main_":
     import uvicorn
     uvicorn.run("index:app", host="0.0.0.0", port=8000, reload=True) 
